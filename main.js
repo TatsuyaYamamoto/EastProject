@@ -6,6 +6,8 @@ var keyCode;
 var pressedKey = []
 var shotStatus = false;
 var shotCount = 0;
+var frameCount = 0;
+var enemyType;
 
 //定数-------------------------------------------
 var FPS = 1000 / 30;
@@ -17,20 +19,17 @@ var LEFT_KEYCODE = 37;
 var SLOW_KEYCODE = 90;
 var SHOT_KEYCODE = 32;
 
-var NORMAL_SPEED = 5;
-var SLOW_SPEED = 2;
-
-var SHOT_SIZE = 3;
-var SHOT_SPEED = 20;
-
-
 //初期化-----------------------------------------
 
 //自機の初期化(サイズ、初期x軸位置、初期y軸位置)
 var player = new Player();
 player.init(10, 180, 450);
 
-var shot = [];
+//自機弾丸
+var playerShot = [];
+
+//敵機
+var enemy = [];
 //描画処理---------------------------------------
 window.onload = function(){
 
@@ -47,10 +46,10 @@ window.onload = function(){
     (function(){
 
         // information表記
-        document.getElementById("info_coordinates").innerHTML =  player.position.x + " : " +player.position.y ;
-        document.getElementById("info_keyCode").innerHTML = keyCode;
-        document.getElementById("info_shotCount").innerHTML = shotCount;
-        document.getElementById("info_shotObject").innerHTML = shot;
+        document.getElementById("info_coordinates").innerHTML =  "coordinates of point : "+player.position.x + " : " +player.position.y ;
+        document.getElementById("info_keyCode").innerHTML = "KeyCode pushing : "+keyCode;
+        document.getElementById("info_shotCount").innerHTML = "ShotCount : "+shotCount;
+        document.getElementById("info_frameCount").innerHTML = "FrameCount : "+frameCount;
 
         // screen削除
         screenContext.clearRect(0, 0, gameScreen.width, gameScreen.height);
@@ -58,18 +57,34 @@ window.onload = function(){
         //自機管理
         player.move();
         playerDraw();
+
+        //Shotする=Shotオブジェクトを作成する
         player.shot();
 
         //shot管理
-        for(i = 0; i< shot.length; i++){
-            shot[i].move();
+        for(i = 0; i< playerShot.length; i++){
+            playerShot[i].move();
             shotDraw(i);
-            if(shot[i].position.y < 0){
-                shot.splice(i, 1);
+            if(playerShot[i].position.y < 0){
+                playerShot.splice(i, 1);
             }
         }
 
-        
+        //敵機管理
+        if(frameCount != 0 && frameCount%150 == 0){
+            enemyType = "enemyType1";
+            enemy.push(new Enemy());
+            enemy[enemy.length-1].init(enemyType);
+        }
+
+        //敵機描画
+        for(i = 0; i < enemy.length; i++){
+            enemy[i].move();
+            enemyDraw(i);
+        }
+
+        //フレーム数増加
+        frameCount++;
         //現在実行している関数を再実行
 		setTimeout(arguments.callee, FPS);
     })();
@@ -127,6 +142,12 @@ function playerDraw(){
 function shotDraw(i){
     screenContext.beginPath();
     screenContext.fillStyle = "rgba(0, 255, 0, 0.75)";
-    screenContext.arc(shot[i].position.x, shot[i].position.y, shot[i].size , 0, Math.PI * 2, false);
+    screenContext.arc(playerShot[i].position.x, playerShot[i].position.y, playerShot[i].size , 0, Math.PI * 2, false);
+    screenContext.fill();
+}
+function enemyDraw(i){
+    screenContext.beginPath();
+    screenContext.fillStyle = "rgba(255, 0, 0, 0.75)";
+    screenContext.arc(enemy[i].position.x, enemy[i].position.y, enemy[i].size , 0, Math.PI * 2, false);
     screenContext.fill();
 }
