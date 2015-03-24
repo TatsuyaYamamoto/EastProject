@@ -1,6 +1,6 @@
 
 //global---------------------------------------
-var screen;
+var gameScreen;
 var screenContext;
 var info_keyCode, info_coordinates;
 var keyCode;
@@ -25,9 +25,9 @@ var SLOW_SPEED = 2;
 window.onload = function(){
 
 	// スクリーンの初期化
-    screen = document.getElementById('screen');
+    gameScreen = document.getElementById('screen');
     //canvas2dコンテキストの登録
-    screenContext = screen.getContext("2d");
+    screenContext = gameScreen.getContext("2d");
 
 	//イベントの登録
 	window.addEventListener("keydown", keyDown, true);
@@ -45,7 +45,7 @@ window.onload = function(){
         info_keyCode.innerHTML = keyCode;
 
         // screenクリア 
-        screenContext.clearRect(0, 0, screen.width, screen.height);
+        screenContext.clearRect(0, 0, gameScreen.width, gameScreen.height);
         // パスの設定を開始
         screenContext.beginPath();
 
