@@ -1,5 +1,5 @@
 //座標管理用コンストラクタ
 function Point(){
-	this.x = 180;
-	this.y = 450;
+	this.x = 0;
+	this.y = 0;
 }

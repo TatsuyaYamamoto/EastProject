@@ -8,6 +8,9 @@ body{
 
 canvas{
 	border: 2px solid gray;
+	width: 360px;
+	height: 480px;
+
 }
 #header{
 	text-align: center;
