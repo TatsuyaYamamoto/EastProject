@@ -57,6 +57,7 @@ window.onload = function(){
         //自機管理
         player.move();
         playerDraw();
+        checkPlayerAlive();
 
         //Shotする=Shotオブジェクトを作成する
         player.shot();
@@ -77,6 +78,12 @@ window.onload = function(){
             enemy[enemy.length-1].init(enemyType);
         }
 
+        if(frameCount != 0 && frameCount%100 == 0){
+            enemyType = "enemyType2";
+            enemy.push(new Enemy());
+            enemy[enemy.length-1].init(enemyType);
+        }
+
         //敵機描画
         for(i = 0; i < enemy.length; i++){
             enemy[i].move();
@@ -85,8 +92,14 @@ window.onload = function(){
 
         //フレーム数増加
         frameCount++;
-        //現在実行している関数を再実行
-		setTimeout(arguments.callee, FPS);
+
+        //自機生存確認
+        if(player.alive){
+            //現在実行している関数を再実行
+            setTimeout(arguments.callee, FPS);
+        }else{
+            GAMEOVER();
+        }
     })();
 
 }
@@ -150,4 +163,21 @@ function enemyDraw(i){
     screenContext.fillStyle = "rgba(255, 0, 0, 0.75)";
     screenContext.arc(enemy[i].position.x, enemy[i].position.y, enemy[i].size , 0, Math.PI * 2, false);
     screenContext.fill();
+}
+function checkPlayerAlive(){
+
+    for(i = 0; i < enemy.length; i++){
+        var length = player.position.distance(enemy[i]);
+        if(length < player.size){
+            alert(player.size +"+"+length)
+            player.alive = false;
+        }
+    }
+}
+
+function GAMEOVER(){
+
+    alert(player.size +"自機消滅しました。リロードしてください。");
+    // screen削除
+    screenContext.clearRect(0, 0, gameScreen.width, gameScreen.height);
 }

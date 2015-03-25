@@ -7,8 +7,13 @@ var SHOT_SPEED = 20;
 
 var ENEMY1_SIZE =30;
 var ENEMY1_SPEED = 10;
-var ENEMY1_FIRST_X = 150;
+var ENEMY1_FIRST_X = 100;
 var ENEMY1_FIRST_Y = 0;
+
+var ENEMY2_SIZE =20;
+var ENEMY2_SPEED = 15;
+var ENEMY2_FIRST_X = 180;
+var ENEMY2_FIRST_Y = 0;
 
 //自機のコンストラクタ-------------------------------------
 function Player(){
@@ -18,6 +23,7 @@ Player.prototype.init = function(size, x, y){
     this.position = new Position();
     this.position.x = x;
     this.position.y = y;
+    this.alive = true;
 }
 
 Player.prototype.move = function(){
@@ -50,6 +56,7 @@ Player.prototype.shot = function(){
         shotStatus = true;
     }
 }
+
 //弾丸のコンストラクタ-------------------------------------
 function Shot(){
 }
@@ -73,6 +80,13 @@ Enemy.prototype.init = function(enemyType){
         this.position = new Position();
         this.position.x = ENEMY1_FIRST_X;
         this.position.y = ENEMY1_FIRST_Y;
+    }
+    if(enemyType == "enemyType2"){
+        this.size = ENEMY2_SIZE;
+        this.speed = ENEMY2_SPEED;
+        this.position = new Position();
+        this.position.x = ENEMY2_FIRST_X;
+        this.position.y = ENEMY2_FIRST_Y;
     }
 }
 Enemy.prototype.move = function(){
