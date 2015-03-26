@@ -168,7 +168,7 @@ function checkPlayerAlive(){
 
     for(i = 0; i < enemy.length; i++){
         var length = player.position.distance(enemy[i]);
-        if(length < player.size){
+        if(length < player.size + enemy[i].size){
             alert(player.size +"+"+length)
             player.alive = false;
         }
