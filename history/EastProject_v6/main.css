@@ -1,0 +1,25 @@
+body{
+	width: 600px;
+	margin-left: auto;
+	margin-right: auto;
+	font-family:  "游ゴシック", "Yu Gothic", YuGothic, sans-serif;
+	border: 2px solid gray;
+}
+
+canvas{
+	border: 2px solid gray;
+}
+#header{
+	text-align: center;
+}
+#mainColumn{
+	border: 2px solid gray;
+	text-align: center;
+	width: 400px;
+	float: left;
+}
+#subColumn{
+	border: 2px solid gray;
+	float: right;
+	width: 180px;
+}
