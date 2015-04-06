@@ -9,7 +9,6 @@ var game;
 
 var keyCode;
 var pressedKey = [];
-var shotStatus;
 var shotCount;
 var hitCount;
 var frameCount;
@@ -22,7 +21,8 @@ var player;
 var bulletOfPlayerShot = [];
 //敵機
 var enemy = [];
-
+//敵機弾丸
+var bulletOfEnemyShot = [];
 //定数-------------------------------------------
 var FPS = 1000 / 30;
 
@@ -43,12 +43,22 @@ function Position(){
 }
 
 Position.prototype.distance = function(target){
-	var d = new Position();
-	d.x = this.x - target.position.x;
-	d.y = this.y - target.position.y;
 
-	var length = Math.sqrt(Math.pow(d.x, 2) + Math.pow(d.y, 2));
+	var x = this.x - target.position.x;
+	var y = this.y - target.position.y;
+
+	var length = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
 	return length;
+}
+Position.prototype.direction = function(target){
+    
+    var x = this.x - target.position.x;
+    var y = this.y - target.position.y;
+
+    var length = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+    
+    this.directionX = x/length;
+    this.directionY = y/length;
 }
 
 

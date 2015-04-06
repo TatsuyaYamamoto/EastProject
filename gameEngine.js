@@ -7,7 +7,7 @@ player.init(10, 180, 450);
 
 bulletOfPlayerShot = [];
 enemy = [];
-
+bulletOfEnemyShot = [];
 
 keyCode = "no";
 pressedKey = [];
@@ -37,14 +37,14 @@ function drawGameScreen(){
     player.move();
     playerDraw();
 
-    //Shotする=Shotオブジェクトを作成する
+    // 自機Shot
     if(pressedKey[6] && (frameCount % SHOT_SPEED == 0)){
         player.shot();
     }
-    //shot管理
+    //自機shot管理
     for(i = 0; i< bulletOfPlayerShot.length; i++){
         bulletOfPlayerShot[i].move();
-        shotDraw(i);
+        playerShotDraw(i);
         if(bulletOfPlayerShot[i].position.y < 0){
             bulletOfPlayerShot.splice(i, 1);
         }
@@ -61,6 +61,21 @@ function drawGameScreen(){
         enemyType = "enemyType2";
         enemy.push(new Enemy());
         enemy[enemy.length-1].init(enemyType);
+    }
+
+    //敵機shot
+    if(frameCount != 0 && frameCount%12 == 0){
+        for(i = 0; i < enemy.length; i++){
+            enemy[i].shot();
+        }
+    }
+    //敵機shot管理
+    for(i = 0; i< bulletOfEnemyShot.length; i++){
+        bulletOfEnemyShot[i].move();
+        enemyShotDraw(i);
+        if(bulletOfEnemyShot[i].position.y < 0){
+            bulletOfEnemyShot.splice(i, 1);
+        }
     }
 
     //敵機描画
@@ -90,7 +105,7 @@ function playerDraw(){
     // 円を描く
     screenContext.fill();
 }
-function shotDraw(i){
+function playerShotDraw(i){
     screenContext.beginPath();
     screenContext.fillStyle = "rgba(0, 255, 0, 0.75)";
     screenContext.arc(bulletOfPlayerShot[i].position.x, bulletOfPlayerShot[i].position.y, bulletOfPlayerShot[i].size , 0, Math.PI * 2, false);
@@ -102,11 +117,23 @@ function enemyDraw(i){
     screenContext.arc(enemy[i].position.x, enemy[i].position.y, enemy[i].size , 0, Math.PI * 2, false);
     screenContext.fill();
 }
+function enemyShotDraw(i){
+    screenContext.beginPath();
+    screenContext.fillStyle = "rgba(0, 255, 0, 0.75)";
+    screenContext.arc(bulletOfEnemyShot[i].position.x, bulletOfEnemyShot[i].position.y, bulletOfEnemyShot[i].size , 0, Math.PI * 2, false);
+    screenContext.fill();
+}
 function checkPlayerAlive(){
 
     for(i = 0; i < enemy.length; i++){
         var length = player.position.distance(enemy[i]);
         if(length < player.size + enemy[i].size){
+            player.alive = false;
+        }
+    }
+    for(i = 0; i < bulletOfEnemyShot.length; i++){
+        var length = player.position.distance(bulletOfEnemyShot[i]);
+        if(length < player.size + bulletOfEnemyShot[i].size){
             player.alive = false;
         }
     }

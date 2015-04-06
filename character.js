@@ -5,15 +5,18 @@ var SLOW_SPEED = 2;
 var BULLET_SIZE = 3;
 var BULLET_SPEED = 20;
 
+var ENEMY_BULLET_SIZE = 7;
+var ENEMY_BULLET_SPEED = 10;
+
 var ENEMY1_SIZE =30;
-var ENEMY1_SPEED = 13;
-var ENEMY1_FIRST_X = 100;
-var ENEMY1_FIRST_Y = 0;
+var ENEMY1_SPEED = 7;
+var ENEMY1_FIRST_X = 0;
+var ENEMY1_FIRST_Y = 100;
 
 var ENEMY2_SIZE =20;
-var ENEMY2_SPEED = 15;
-var ENEMY2_FIRST_X = 180;
-var ENEMY2_FIRST_Y = 0;
+var ENEMY2_SPEED = -8;
+var ENEMY2_FIRST_X = 480;
+var ENEMY2_FIRST_Y = 150;
 
 //自機のコンストラクタ-------------------------------------
 function Player(){
@@ -50,9 +53,8 @@ Player.prototype.move = function(){
 }
 Player.prototype.shot = function(){
     bulletOfPlayerShot.push(new Shot());
-    bulletOfPlayerShot[bulletOfPlayerShot.length-1].init(BULLET_SIZE, BULLET_SPEED, player.position.x, player.position.y)
+    bulletOfPlayerShot[bulletOfPlayerShot.length-1].init(BULLET_SIZE, BULLET_SPEED, this.position.x, this.position.y);
     shotCount ++;
-    shotStatus = true;
 }
 
 //弾丸のコンストラクタ-------------------------------------
@@ -90,5 +92,27 @@ Enemy.prototype.init = function(enemyType){
     }
 }
 Enemy.prototype.move = function(){
-    this.position.y += this.speed;
+    this.position.x += this.speed;
+}
+
+Enemy.prototype.shot = function(){
+    bulletOfEnemyShot.push(new EnemyShot());
+    bulletOfEnemyShot[bulletOfEnemyShot.length-1].init(this.position.x, this.position.y);
+}
+//敵機弾丸のコンストラクタ-------------------------------------
+function EnemyShot(){
+}
+EnemyShot.prototype.init = function(x, y){
+    this.size = ENEMY_BULLET_SIZE;
+    this.speed = ENEMY_BULLET_SPEED;
+    this.position = new Position();
+    this.position.x = x;
+    this.position.y = y;
+    this.directionX = player.position.x - this.position.x;
+    this.directionY = player.position.y - this.position.y;
+    this.position.direction(player);
+}
+EnemyShot.prototype.move = function(){
+    this.position.x -= this.speed*this.position.directionX;
+    this.position.y -= this.speed*this.position.directionY;
 }
