@@ -7,12 +7,10 @@ var gameScreen, screenContext;
 
 var game;
 
-var keyCode;
 var pressedKey = [];
 var shotCount;
 var hitCount;
 var frameCount;
-var enemyType;
 
 
 //自機
@@ -23,8 +21,13 @@ var bulletOfPlayerShot = [];
 var enemy = [];
 //敵機弾丸
 var bulletOfEnemyShot = [];
+
+//音系
+var playerShotSound = [];
+var enemyShotSound = [];
+var enemyBombSound ;
 //定数-------------------------------------------
-var FPS = 1000 / 30;
+var FPS = 1000 / 40;
 
 var UP_KEYCODE = 38;
 var DOWN_KEYCODE = 40;
@@ -33,8 +36,9 @@ var LEFT_KEYCODE = 37;
 var SLOW_KEYCODE = 90;
 var SHOT_KEYCODE = 32;
 var ENTER_KEYCODE = 13;
+var OPTION_KEYCODE = 88;
 
-var SHOT_SPEED = 3;//連射速度パラメーター
+var SHOT_SPEED = 6;//連射速度パラメーター
 
 //座標管理用コンストラクタ---------------------------------
 function Position(){
@@ -66,7 +70,7 @@ Position.prototype.direction = function(target){
 
 //プレイヤーの座標をkeyCodeに合わせて変更
 function keyDown(event){
-    keyCode = event.keyCode;
+
     if(event.keyCode == UP_KEYCODE){
         pressedKey[1] = true;
     }else if(event.keyCode == DOWN_KEYCODE){
@@ -81,6 +85,8 @@ function keyDown(event){
         pressedKey[6] = true;
     }else if(event.keyCode == ENTER_KEYCODE){
         pressedKey[7] = true;
+    }else if(event.keyCode == OPTION_KEYCODE){
+        pressedKey[8] = true;
     }
 }
 function keyUp(event){
@@ -98,5 +104,7 @@ function keyUp(event){
         pressedKey[6] = false;
     }else if(event.keyCode == ENTER_KEYCODE){
         pressedKey[7] = false;
+    }else if(event.keyCode == OPTION_KEYCODE){
+        pressedKey[8] = true;
     }
 }

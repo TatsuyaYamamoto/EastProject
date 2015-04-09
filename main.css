@@ -1,5 +1,4 @@
 body{
-	width: 600px;
 	margin-left: auto;
 	margin-right: auto;
 	font-family:  "游ゴシック", "Yu Gothic", YuGothic, sans-serif;
@@ -13,13 +12,15 @@ canvas{
 	text-align: center;
 }
 #mainColumn{
-	/*border: 2px solid gray;*/
 	text-align: center;
+	/*border: 2px solid gray;
+
 	width: 400px;
-	float: left;
+	float: center;
+	float: left;*/
 }
 #subColumn{
 	/*border: 2px solid gray;*/
-	float: right;
+	/*float: right;*/
 	width: 180px;
 }
